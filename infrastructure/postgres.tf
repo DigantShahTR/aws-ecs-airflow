@@ -10,6 +10,15 @@ resource "aws_security_group" "postgres_public" {
   description = "Allow all inbound for Postgres"
   vpc_id      = var.vpc
 
+
+  ingress {
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+
   ingress {
     from_port   = 5432
     to_port     = 5432
@@ -125,12 +134,12 @@ resource "aws_rds_cluster" "airflow_fargate_sls" {
   master_password         = random_string.metadata_db_password.result
   backup_retention_period = 7
   # preferred_backup_window = var.sls_backup_window
-  vpc_security_group_ids = [aws_security_group.postgres_public.id]
+  vpc_security_group_ids = [aws_security_group.postgres_public.id, "sg-01ec7f6604e27f96f"]
   engine_mode            = "serverless"
   deletion_protection    = false
-  # db_subnet_group_name   = "tr-vpc-1-db-subnetgroup"
-  copy_tags_to_snapshot = true
-  tags                  = local.default_tags
+  db_subnet_group_name   = "tr-vpc-1-db-subnetgroup"
+  copy_tags_to_snapshot  = true
+  tags                   = local.default_tags
 
   scaling_configuration {
     auto_pause               = true

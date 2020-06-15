@@ -25,13 +25,7 @@ resource "aws_ecs_task_definition" "scheduler" {
 [
   {
     "name": "airflow_scheduler",
-    "image": ${replace(
-jsonencode(
-"${aws_ecr_repository.docker_repository.repository_url}:${var.image_version}",
-),
-"/\"([0-9]+\\.?[0-9]*)\"/",
-"$1",
-)} ,
+    "image": "728336755756.dkr.ecr.us-east-1.amazonaws.com/a205526-airflow-fargate:init",
     "essential": true,
     "command": [
         "scheduler"

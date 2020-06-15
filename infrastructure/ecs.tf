@@ -2,29 +2,29 @@
 #   name = "${local.resource_prefix}-${var.project_name}-${var.stage}"
 # }
 
-resource "aws_ecr_lifecycle_policy" "docker_repository_lifecycly" {
-  repository = aws_ecr_repository.docker_repository.name
-
-  policy = <<EOF
-{
-    "rules": [
-        {
-            "rulePriority": 1,
-            "description": "Keep only the latest 5 images",
-            "selection": {
-                "tagStatus": "any",
-                "countType": "imageCountMoreThan",
-                "countNumber": 5
-            },
-            "action": {
-                "type": "expire"
-            }
-        }
-    ]
-}
-EOF
-
-}
+# resource "aws_ecr_lifecycle_policy" "docker_repository_lifecycly" {
+#   repository = aws_ecr_repository.docker_repository.name
+#
+#   policy = <<EOF
+# {
+#     "rules": [
+#         {
+#             "rulePriority": 1,
+#             "description": "Keep only the latest 5 images",
+#             "selection": {
+#                 "tagStatus": "any",
+#                 "countType": "imageCountMoreThan",
+#                 "countNumber": 5
+#             },
+#             "action": {
+#                 "type": "expire"
+#             }
+#         }
+#     ]
+# }
+# EOF
+#
+# }
 
 resource "aws_ecs_cluster" "ecs_cluster" {
   name = "${local.resource_prefix}-${var.project_name}-${var.stage}"
@@ -32,15 +32,15 @@ resource "aws_ecs_cluster" "ecs_cluster" {
 
 resource "aws_cloudwatch_log_group" "log_group" {
   # name = "${local.resource_prefix}-${var.log_group_name}/${var.project_name}-${var.stage}"
-  name = "a205526-airflow-fargate/app"
+  name              = "a205526-airflow-fargate/app"
   retention_in_days = 5
-  tags = local.default_tags
+  tags              = local.default_tags
 }
 
 resource "aws_iam_role" "ecs_task_iam_role" {
-  name = "${local.resource_prefix}-${var.project_name}-${var.stage}-ecs-task-role"
-  description = "Allow ECS tasks to access AWS resources"
-  path = var.iam_role_prefix
+  name                 = "${local.resource_prefix}-${var.project_name}-${var.stage}-ecs-task-role"
+  description          = "Allow ECS tasks to access AWS resources"
+  path                 = var.iam_role_prefix
   permissions_boundary = var.permissions_boundary
 
   assume_role_policy = <<EOF
@@ -62,9 +62,9 @@ EOF
 }
 
 resource "aws_iam_policy" "ecs_task_policy" {
-name = "${local.resource_prefix}-${var.project_name}-${var.stage}"
+  name = "${local.resource_prefix}-${var.project_name}-${var.stage}"
 
-policy = <<EOF
+  policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -93,6 +93,6 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "attach_policy" {
-role = aws_iam_role.ecs_task_iam_role.name
+role       = aws_iam_role.ecs_task_iam_role.name
 policy_arn = aws_iam_policy.ecs_task_policy.arn
 }

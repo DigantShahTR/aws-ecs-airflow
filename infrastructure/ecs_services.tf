@@ -9,8 +9,9 @@ resource "aws_ecs_service" "web_server_service" {
   health_check_grace_period_seconds  = 60
 
   network_configuration {
-    security_groups  = [aws_security_group.web_server_ecs_internal.id]
-    subnets          = ["subnet-03aa2d592c1a1bb36", "subnet-083a81ab365557eaa", "subnet-0fb2539df13358ad6"]
+    security_groups = [aws_security_group.web_server_ecs_internal.id, "sg-0b7a5fc65e1d91890", "sg-417ab536", "sg-0f4214afda15a56ea", "sg-4e14c739"]
+    # subnets          = ["subnet-03aa2d592c1a1bb36", "subnet-083a81ab365557eaa", "subnet-0fb2539df13358ad6"]
+    subnets          = ["subnet-0dff2e23", "subnet-600ddd07", "subnet-a6a275fa"]
     assign_public_ip = true
   }
 
@@ -40,8 +41,9 @@ resource "aws_ecs_service" "scheduler_service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    security_groups  = [aws_security_group.scheduler.id]
-    subnets          = ["subnet-03aa2d592c1a1bb36", "subnet-083a81ab365557eaa", "subnet-0fb2539df13358ad6"]
+    security_groups = [aws_security_group.scheduler.id, "sg-0b7a5fc65e1d91890", "sg-417ab536", "sg-0f4214afda15a56ea", "sg-4e14c739"]
+    # subnets          = ["subnet-03aa2d592c1a1bb36", "subnet-083a81ab365557eaa", "subnet-0fb2539df13358ad6"]
+    subnets          = ["subnet-0dff2e23", "subnet-600ddd07", "subnet-a6a275fa"]
     assign_public_ip = true # when using a NAT can be put to false, or when ECS Private Link is enabled
   }
 
@@ -63,8 +65,9 @@ resource "aws_ecs_service" "workers_service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    security_groups  = [aws_security_group.workers.id]
-    subnets          = ["subnet-03aa2d592c1a1bb36", "subnet-083a81ab365557eaa", "subnet-0fb2539df13358ad6"]
+    security_groups = [aws_security_group.workers.id, "sg-0b7a5fc65e1d91890", "sg-417ab536", "sg-0f4214afda15a56ea", "sg-4e14c739"]
+    # subnets          = ["subnet-03aa2d592c1a1bb36", "subnet-083a81ab365557eaa", "subnet-0fb2539df13358ad6"]
+    subnets          = ["subnet-0dff2e23", "subnet-600ddd07", "subnet-a6a275fa"]
     assign_public_ip = true # when using a NAT can be put to false, or when ECS Private Link is enabled
   }
 
@@ -86,8 +89,9 @@ resource "aws_ecs_service" "flower_service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    security_groups  = [aws_security_group.flower.id]
-    subnets          = ["subnet-03aa2d592c1a1bb36", "subnet-083a81ab365557eaa", "subnet-0fb2539df13358ad6"]
+    security_groups = [aws_security_group.flower.id, "sg-0b7a5fc65e1d91890", "sg-417ab536", "sg-0f4214afda15a56ea", "sg-4e14c739"]
+    # subnets          = ["subnet-03aa2d592c1a1bb36", "subnet-083a81ab365557eaa", "subnet-0fb2539df13358ad6"]
+    subnets          = ["subnet-0dff2e23", "subnet-600ddd07", "subnet-a6a275fa"]
     assign_public_ip = true
   }
 
